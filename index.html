@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Controle Hub</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0B0E14;
+    --surface:#12161F;
+    --surface-2:#171C27;
+    --border:#232A36;
+    --border-soft:#1B212B;
+    --text:#E9EDF3;
+    --text-muted:#8A93A3;
+    --text-faint:#5C6577;
+    --accent:#FF8A3D;
+    --accent-soft:rgba(255,138,61,0.13);
+    --accent-dim:rgba(255,138,61,0.35);
+    --teal:#5EEAD4;
+    --teal-soft:rgba(94,234,212,0.13);
+    --danger:#FF6B6B;
+    --danger-soft:rgba(255,107,107,0.13);
+    --radius:14px;
+    --font-display:'Space Grotesk', sans-serif;
+    --font-body:'Inter', sans-serif;
+    --font-mono:'JetBrains Mono', monospace;
+  }
+
+  *{ box-sizing:border-box; margin:0; padding:0; }
+
+  html,body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:var(--font-body);
+    min-height:100vh;
+  }
+
+  body{
+    background-image:
+      radial-gradient(circle at 1px 1px, rgba(255,255,255,0.045) 1px, transparent 1px);
+    background-size: 28px 28px;
+    background-position: -4px -4px;
+  }
+
+  ::selection{ background:var(--accent-dim); color:#fff; }
+
+  a{ color:inherit; }
+
+  .wrap{
+    max-width: 920px;
+    margin: 0 auto;
+    padding: 64px 24px 96px;
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding-bottom: 40px;
+    margin-bottom: 44px;
+    border-bottom: 1px solid var(--border-soft);
+  }
+
+  .hero::before{
+    content:"";
+    position:absolute;
+    top:-30px; right:-30px;
+    width: 260px; height: 260px;
+    background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  .eyebrow{
+    position:relative;
+    z-index:1;
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    font-family:var(--font-mono);
+    font-size: 12.5px;
+    letter-spacing: 0.08em;
+    color: var(--teal);
+    background: var(--teal-soft);
+    border: 1px solid rgba(94,234,212,0.28);
+    padding: 6px 12px 6px 10px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+  }
+
+  .eyebrow .dot{
+    width:7px; height:7px;
+    border-radius:50%;
+    background: var(--teal);
+    box-shadow: 0 0 0 0 rgba(94,234,212,0.6);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse{
+    0%{ box-shadow: 0 0 0 0 rgba(94,234,212,0.55); }
+    70%{ box-shadow: 0 0 0 7px rgba(94,234,212,0); }
+    100%{ box-shadow: 0 0 0 0 rgba(94,234,212,0); }
+  }
+
+  h1{
+    position:relative;
+    z-index:1;
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(38px, 7vw, 60px);
+    letter-spacing: -0.02em;
+    line-height: 1.02;
+    margin-bottom: 14px;
+  }
+
+  h1 span{ color: var(--accent); }
+
+  .hero p{
+    position:relative;
+    z-index:1;
+    color: var(--text-muted);
+    font-size: 16px;
+    max-width: 480px;
+    line-height: 1.55;
+    margin-bottom: 26px;
+  }
+
+  .readout{
+    position:relative;
+    z-index:1;
+    display:flex;
+    gap: 28px;
+    flex-wrap: wrap;
+  }
+
+  .readout-item{
+    font-family: var(--font-mono);
+  }
+
+  .readout-item .num{
+    font-size: 26px;
+    font-weight: 600;
+    color: var(--text);
+    display:block;
+    line-height:1.1;
+  }
+
+  .readout-item .label{
+    font-size: 11.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  /* ---------- ADD FORM ---------- */
+  .panel-label{
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display:flex;
+    align-items:center;
+    gap: 8px;
+  }
+
+  .panel-label::after{
+    content:"";
+    height:1px;
+    flex:1;
+    background: var(--border-soft);
+  }
+
+  form.add-card{
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 22px;
+    margin-bottom: 52px;
+    position: relative;
+  }
+
+  .prompt-row{
+    display:flex;
+    align-items:center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    color: var(--accent);
+    font-size: 13px;
+    margin-bottom: 18px;
+    letter-spacing: 0.02em;
+  }
+
+  .field-grid{
+    display:grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin-bottom: 14px;
+  }
+
+  .field{
+    display:flex;
+    flex-direction:column;
+    gap: 7px;
+  }
+
+  .field.full{ grid-column: 1 / -1; }
+
+  .field label{
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+  }
+
+  .field input, .field textarea{
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 9px;
+    padding: 11px 13px;
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 14.5px;
+    outline: none;
+    transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    width: 100%;
+  }
+
+  .field input::placeholder, .field textarea::placeholder{ color: var(--text-faint); }
+
+  .field input:focus, .field textarea:focus{
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .form-footer{
+    display:flex;
+    align-items:center;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+
+  .hint{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+
+  .hint.error{ color: var(--danger); }
+
+  button.submit{
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    background: var(--accent);
+    color: #1A0E04;
+    border: none;
+    border-radius: 9px;
+    padding: 11px 20px;
+    cursor: pointer;
+    transition: transform 0.12s ease, box-shadow 0.12s ease, opacity 0.12s ease;
+    box-shadow: 0 0 0 0 var(--accent-dim);
+  }
+
+  button.submit:hover{ transform: translateY(-1px); box-shadow: 0 6px 18px -6px var(--accent-dim); }
+  button.submit:active{ transform: translateY(0); }
+  button.submit:disabled{ opacity: 0.55; cursor: not-allowed; transform:none; box-shadow:none; }
+
+  /* ---------- GRID ---------- */
+  .grid{
+    display:grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+  }
+
+  .card{
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 18px 18px 16px;
+    transition: border-color 0.18s ease, transform 0.18s ease, background 0.18s ease;
+    overflow: hidden;
+  }
+
+  .card::before{
+    content:"";
+    position:absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-soft) 0%, transparent 45%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .card:hover{
+    border-color: var(--accent-dim);
+    transform: translateY(-2px);
+  }
+
+  .card:hover::before{ opacity: 1; }
+
+  .card-top{
+    display:flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .card-title-row{
+    display:flex;
+    align-items:center;
+    gap: 9px;
+    min-width: 0;
+  }
+
+  .status-dot{
+    flex-shrink:0;
+    width:8px; height:8px;
+    border-radius:50%;
+    background: var(--teal);
+    box-shadow: 0 0 0 0 rgba(94,234,212,0.6);
+    animation: pulse 2.4s infinite;
+    margin-top: 2px;
+  }
+
+  .card-title{
+    font-family: var(--font-mono);
+    font-size: 14.5px;
+    font-weight: 600;
+    color: var(--text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .delete-btn{
+    flex-shrink:0;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    border-radius: 7px;
+    padding: 5px 9px;
+    cursor:pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .delete-btn:hover{
+    color: var(--danger);
+    border-color: var(--danger-soft);
+    background: var(--danger-soft);
+  }
+
+  .delete-btn.confirm{
+    color: var(--danger);
+    border-color: var(--danger);
+    background: var(--danger-soft);
+  }
+
+  .card-desc{
+    color: var(--text-muted);
+    font-size: 13.5px;
+    line-height: 1.5;
+    margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
+    min-height: 20px;
+  }
+
+  .card-desc.empty{ color: var(--text-faint); font-style: italic; }
+
+  .card-link{
+    position: relative;
+    z-index: 1;
+    display:flex;
+    align-items:center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--accent);
+    text-decoration: none;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-soft);
+  }
+
+  .card-link span{
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .card-link:hover{ color: #ffb27a; }
+
+  .card-link svg{ flex-shrink:0; transition: transform 0.15s ease; }
+  .card-link:hover svg{ transform: translate(2px,-2px); }
+
+  /* ---------- EMPTY / LOADING ---------- */
+  .empty-state{
+    grid-column: 1 / -1;
+    border: 1px dashed var(--border);
+    border-radius: var(--radius);
+    padding: 46px 20px;
+    text-align: center;
+    color: var(--text-faint);
+  }
+
+  .empty-state .big{
+    font-family: var(--font-mono);
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-bottom: 6px;
+  }
+
+  .empty-state .small{ font-size: 12.5px; }
+
+  .loading-state{
+    grid-column: 1 / -1;
+    text-align:center;
+    padding: 40px 0;
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    font-size: 13px;
+  }
+
+  footer{
+    margin-top: 60px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-soft);
+    display:flex;
+    justify-content: space-between;
+    align-items:center;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+  }
+
+  footer .sync{
+    display:flex;
+    align-items:center;
+    gap: 7px;
+  }
+
+  footer .sync .dot{
+    width:6px; height:6px;
+    border-radius:50%;
+    background: var(--teal);
+    animation: pulse 2s infinite;
+  }
+
+  @media (max-width: 680px){
+    .field-grid{ grid-template-columns: 1fr; }
+    .grid{ grid-template-columns: 1fr; }
+    .wrap{ padding: 44px 18px 70px; }
+  }
+
+  :focus-visible{
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation: none !important; transition: none !important; }
+  }
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow"><span class="dot"></span>status: online</div>
+    <h1>Controle<span>Hub</span></h1>
+    <p>Todos os seus projetos reunidos em um único painel. Adicione os links dos seus repositórios e acesse tudo em um lugar só.</p>
+    <div class="readout">
+      <div class="readout-item">
+        <span class="num" id="countLinks">—</span>
+        <span class="label">links salvos</span>
+      </div>
+      <div class="readout-item">
+        <span class="num" id="countRecent">—</span>
+        <span class="label">adicionados essa semana</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="panel-label">novo link</div>
+  <form class="add-card" id="addForm">
+    <div class="prompt-row">$ git remote add <span id="promptEcho" style="color:var(--text-faint)">&lt;projeto&gt;</span></div>
+    <div class="field-grid">
+      <div class="field">
+        <label for="titleInput">Nome do projeto</label>
+        <input type="text" id="titleInput" placeholder="ex: meu-app-incrivel" required maxlength="60" />
+      </div>
+      <div class="field">
+        <label for="urlInput">URL (GitHub ou qualquer link)</label>
+        <input type="text" id="urlInput" placeholder="https://github.com/usuario/repo" required maxlength="300" />
+      </div>
+      <div class="field full">
+        <label for="descInput">Descrição (opcional)</label>
+        <textarea id="descInput" rows="2" maxlength="160" placeholder="Do que se trata esse projeto?"></textarea>
+      </div>
+    </div>
+    <div class="form-footer">
+      <span class="hint" id="formHint">os links ficam salvos e sincronizados em tempo real</span>
+      <button type="submit" class="submit" id="submitBtn">Adicionar ao hub</button>
+    </div>
+  </form>
+
+  <div class="panel-label">seus links</div>
+  <div class="grid" id="linksGrid">
+    <div class="loading-state">carregando links…</div>
+  </div>
+
+  <footer>
+    <div class="sync"><span class="dot"></span>sincronizado com Firestore em tempo real</div>
+    <div id="lastUpdate">—</div>
+  </footer>
+
+</div>
+
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+  import {
+    getFirestore, collection, addDoc, deleteDoc, doc,
+    onSnapshot, query, orderBy, serverTimestamp
+  } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyAydvsgncs_HrgqvRnJ-ZQtZawgWf0qwfc",
+    authDomain: "controle-hub-ad384.firebaseapp.com",
+    projectId: "controle-hub-ad384",
+    storageBucket: "controle-hub-ad384.firebasestorage.app",
+    messagingSenderId: "249949603154",
+    appId: "1:249949603154:web:c3bc191a46c090c393268b",
+    measurementId: "G-SJ0JD7G3KW"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const linksCol = collection(db, "links");
+
+  const grid = document.getElementById("linksGrid");
+  const form = document.getElementById("addForm");
+  const titleInput = document.getElementById("titleInput");
+  const urlInput = document.getElementById("urlInput");
+  const descInput = document.getElementById("descInput");
+  const submitBtn = document.getElementById("submitBtn");
+  const formHint = document.getElementById("formHint");
+  const promptEcho = document.getElementById("promptEcho");
+  const countLinks = document.getElementById("countLinks");
+  const countRecent = document.getElementById("countRecent");
+  const lastUpdate = document.getElementById("lastUpdate");
+
+  titleInput.addEventListener("input", () => {
+    promptEcho.textContent = titleInput.value.trim() ? titleInput.value.trim() : "<projeto>";
+  });
+
+  function escapeHtml(str){
+    const d = document.createElement("div");
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  function normalizeUrl(raw){
+    let u = raw.trim();
+    if(!/^https?:\/\//i.test(u)){
+      u = "https://" + u;
+    }
+    return u;
+  }
+
+  function isValidUrl(u){
+    try{ new URL(u); return true; } catch{ return false; }
+  }
+
+  function shortenUrl(u){
+    return u.replace(/^https?:\/\//i, "").replace(/\/$/, "");
+  }
+
+  function renderLinks(items){
+    if(items.length === 0){
+      grid.innerHTML = `
+        <div class="empty-state">
+          <div class="big">nenhum link por aqui ainda</div>
+          <div class="small">adicione seu primeiro projeto no formulário acima</div>
+        </div>`;
+      countLinks.textContent = "0";
+      countRecent.textContent = "0";
+      return;
+    }
+
+    const now = Date.now();
+    const weekMs = 7 * 24 * 60 * 60 * 1000;
+    let recentCount = 0;
+
+    grid.innerHTML = items.map(item => {
+      const createdMs = item.createdAt ? item.createdAt.toMillis() : now;
+      if(now - createdMs < weekMs) recentCount++;
+
+      const desc = item.description && item.description.trim()
+        ? `<div class="card-desc">${escapeHtml(item.description)}</div>`
+        : `<div class="card-desc empty">sem descrição</div>`;
+
+      return `
+        <div class="card" data-id="${item.id}">
+          <div class="card-top">
+            <div class="card-title-row">
+              <span class="status-dot"></span>
+              <span class="card-title" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</span>
+            </div>
+            <button class="delete-btn" data-id="${item.id}" data-action="delete">remover</button>
+          </div>
+          ${desc}
+          <a class="card-link" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
+            <span>${escapeHtml(shortenUrl(item.url))}</span>
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M7 17L17 7"/><path d="M7 7h10v10"/></svg>
+          </a>
+        </div>`;
+    }).join("");
+
+    countLinks.textContent = items.length;
+    countRecent.textContent = recentCount;
+  }
+
+  const q = query(linksCol, orderBy("createdAt", "desc"));
+
+  onSnapshot(q, (snapshot) => {
+    const items = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+    renderLinks(items);
+    lastUpdate.textContent = "atualizado agora";
+  }, (err) => {
+    grid.innerHTML = `<div class="empty-state"><div class="big">erro ao carregar links</div><div class="small">${escapeHtml(err.message)}</div></div>`;
+  });
+
+  // delete with confirm-on-second-click
+  let pendingDeleteId = null;
+  let pendingDeleteTimer = null;
+
+  grid.addEventListener("click", async (e) => {
+    const btn = e.target.closest('[data-action="delete"]');
+    if(!btn) return;
+    const id = btn.dataset.id;
+
+    if(pendingDeleteId !== id){
+      // reset any other pending
+      document.querySelectorAll(".delete-btn.confirm").forEach(b => {
+        b.textContent = "remover";
+        b.classList.remove("confirm");
+      });
+      pendingDeleteId = id;
+      btn.textContent = "confirmar?";
+      btn.classList.add("confirm");
+      clearTimeout(pendingDeleteTimer);
+      pendingDeleteTimer = setTimeout(() => {
+        btn.textContent = "remover";
+        btn.classList.remove("confirm");
+        pendingDeleteId = null;
+      }, 3000);
+      return;
+    }
+
+    // confirmed
+    clearTimeout(pendingDeleteTimer);
+    pendingDeleteId = null;
+    btn.textContent = "…";
+    try{
+      await deleteDoc(doc(db, "links", id));
+    }catch(err){
+      alert("Não foi possível remover: " + err.message);
+    }
+  });
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+    formHint.classList.remove("error");
+
+    const title = titleInput.value.trim();
+    const rawUrl = urlInput.value.trim();
+    const description = descInput.value.trim();
+
+    if(!title || !rawUrl){
+      formHint.textContent = "preencha nome e URL para continuar";
+      formHint.classList.add("error");
+      return;
+    }
+
+    const url = normalizeUrl(rawUrl);
+    if(!isValidUrl(url)){
+      formHint.textContent = "essa URL não parece válida";
+      formHint.classList.add("error");
+      return;
+    }
+
+    submitBtn.disabled = true;
+    submitBtn.textContent = "adicionando…";
+
+    try{
+      await addDoc(linksCol, {
+        title,
+        url,
+        description,
+        createdAt: serverTimestamp()
+      });
+      form.reset();
+      promptEcho.textContent = "<projeto>";
+      formHint.textContent = "os links ficam salvos e sincronizados em tempo real";
+    }catch(err){
+      formHint.textContent = "erro ao salvar: " + err.message;
+      formHint.classList.add("error");
+    }finally{
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Adicionar ao hub";
+    }
+  });
+</script>
+
+</body>
+</html>
