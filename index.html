@@ -432,6 +432,149 @@
   button.submit:active{ transform: translateY(0); }
   button.submit:disabled{ opacity: 0.55; cursor: not-allowed; transform:none; box-shadow:none; }
 
+  /* ---------- CATEGORIAS ---------- */
+  .cat-grid{
+    display:grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 14px;
+  }
+
+  .cat-card{
+    position: relative;
+    background: linear-gradient(180deg, var(--surface) 0%, var(--surface-2) 100%);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 20px 18px;
+    cursor: pointer;
+    transition: border-color 0.18s ease, transform 0.18s ease;
+    text-align: left;
+    overflow: hidden;
+  }
+
+  .cat-card::before{
+    content:"";
+    position:absolute;
+    inset: 0;
+    background: linear-gradient(135deg, var(--accent-soft) 0%, transparent 55%);
+    opacity: 0;
+    transition: opacity 0.2s ease;
+    pointer-events: none;
+  }
+
+  .cat-card:hover{
+    border-color: var(--accent-dim);
+    transform: translateY(-3px);
+  }
+
+  .cat-card:hover::before{ opacity: 1; }
+
+  .cat-card-top{
+    position: relative;
+    z-index: 1;
+    display:flex;
+    align-items:center;
+    gap: 9px;
+    margin-bottom: 12px;
+  }
+
+  .cat-card-icon{
+    flex-shrink:0;
+    width: 30px; height: 30px;
+    border-radius: 8px;
+    background: var(--accent-soft);
+    border: 1px solid rgba(255,138,61,0.28);
+    color: var(--accent);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+  }
+
+  .cat-card-title{
+    font-family: var(--font-mono);
+    font-size: 15.5px;
+    font-weight: 600;
+    color: var(--text);
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cat-card-count{
+    position: relative;
+    z-index: 1;
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+    color: var(--text-faint);
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .cat-card-preview{
+    position: relative;
+    z-index: 1;
+    display:flex;
+    flex-direction:column;
+    gap: 6px;
+    padding-top: 12px;
+    border-top: 1px solid var(--border-soft);
+  }
+
+  .cat-card-preview span{
+    font-size: 12.5px;
+    color: var(--text-muted);
+    overflow:hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .cat-card-preview .more{
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    font-size: 11.5px;
+  }
+
+  .detail-header{
+    display:flex;
+    align-items:center;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .back-btn{
+    display:flex;
+    align-items:center;
+    gap: 6px;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    border-radius: 8px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+
+  .back-btn:hover{
+    color: var(--text);
+    border-color: var(--text-faint);
+  }
+
+  .detail-title{
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 22px;
+  }
+
+  .detail-count{
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    margin-left: auto;
+  }
+
   /* ---------- GRID ---------- */
   .grid{
     display:grid;
@@ -530,6 +673,82 @@
     background: var(--danger-soft);
   }
 
+  .card-actions{
+    display:flex;
+    gap: 6px;
+    flex-shrink:0;
+  }
+
+  .edit-btn{
+    flex-shrink:0;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.03em;
+    border-radius: 7px;
+    padding: 5px 9px;
+    cursor:pointer;
+    transition: all 0.15s ease;
+    white-space: nowrap;
+  }
+
+  .edit-btn:hover{
+    color: var(--teal);
+    border-color: rgba(94,234,212,0.3);
+    background: var(--teal-soft);
+  }
+
+  .title-edit-row{
+    display:flex;
+    align-items:center;
+    gap: 6px;
+    flex: 1;
+    min-width: 0;
+  }
+
+  .title-edit-input{
+    flex: 1;
+    min-width: 0;
+    background: var(--bg);
+    border: 1px solid var(--accent);
+    border-radius: 7px;
+    padding: 5px 8px;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 14px;
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .save-btn{
+    flex-shrink:0;
+    background: var(--accent);
+    border: 1px solid var(--accent);
+    color: #1A0E04;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 7px;
+    padding: 5px 9px;
+    cursor:pointer;
+    white-space: nowrap;
+  }
+
+  .cancel-btn{
+    flex-shrink:0;
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-faint);
+    font-family: var(--font-mono);
+    font-size: 11px;
+    border-radius: 7px;
+    padding: 5px 9px;
+    cursor:pointer;
+    white-space: nowrap;
+  }
+
   .card-desc{
     color: var(--text-muted);
     font-size: 13.5px;
@@ -625,9 +844,14 @@
   @media (max-width: 680px){
     .field-grid{ grid-template-columns: 1fr; }
     .grid{ grid-template-columns: 1fr; }
+    .cat-grid{ grid-template-columns: 1fr; }
     .wrap{ padding: 44px 18px 70px; }
     .readout{ width:100%; }
     .lock-toggle{ margin-left:0; }
+  }
+
+  @media (max-width: 900px) and (min-width: 681px){
+    .cat-grid{ grid-template-columns: repeat(2, 1fr); }
   }
 
   :focus-visible{
@@ -693,6 +917,19 @@
         <label for="urlInput">URL (GitHub ou qualquer link)</label>
         <input type="text" id="urlInput" placeholder="https://github.com/usuario/repo" required maxlength="300" />
       </div>
+      <div class="field">
+        <label for="categoryInput">Categoria</label>
+        <select id="categoryInput" required>
+          <option value="Papis">Papis</option>
+          <option value="Hiro">Hiro</option>
+          <option value="Epseg">Epseg</option>
+          <option value="__custom">+ nova categoria…</option>
+        </select>
+      </div>
+      <div class="field" id="categoryCustomWrap" hidden>
+        <label for="categoryCustomInput">Nome da nova categoria</label>
+        <input type="text" id="categoryCustomInput" placeholder="ex: Pessoal" maxlength="40" />
+      </div>
       <div class="field full">
         <label for="descInput">Descrição (opcional)</label>
         <textarea id="descInput" rows="2" maxlength="160" placeholder="Do que se trata esse projeto?"></textarea>
@@ -704,9 +941,23 @@
     </div>
   </form>
 
-  <div class="panel-label">seus links</div>
-  <div class="grid" id="linksGrid">
-    <div class="loading-state">carregando links…</div>
+  <div id="categoriesView">
+    <div class="panel-label">seus links</div>
+    <div class="cat-grid" id="catGrid">
+      <div class="loading-state">carregando links…</div>
+    </div>
+  </div>
+
+  <div id="detailView" hidden>
+    <div class="detail-header">
+      <button class="back-btn" id="backBtn" type="button">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+        categorias
+      </button>
+      <div class="detail-title" id="detailTitle">—</div>
+      <div class="detail-count" id="detailCount">—</div>
+    </div>
+    <div class="grid" id="linksGrid"></div>
   </div>
 
   <footer>
@@ -719,7 +970,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
   import {
-    getFirestore, collection, addDoc, deleteDoc, doc,
+    getFirestore, collection, addDoc, deleteDoc, updateDoc, doc,
     onSnapshot, query, orderBy, serverTimestamp
   } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
   import {
@@ -757,6 +1008,9 @@
   const form = document.getElementById("addForm");
   const titleInput = document.getElementById("titleInput");
   const urlInput = document.getElementById("urlInput");
+  const categoryInput = document.getElementById("categoryInput");
+  const categoryCustomWrap = document.getElementById("categoryCustomWrap");
+  const categoryCustomInput = document.getElementById("categoryCustomInput");
   const descInput = document.getElementById("descInput");
   const submitBtn = document.getElementById("submitBtn");
   const formHint = document.getElementById("formHint");
@@ -765,7 +1019,26 @@
   const countRecent = document.getElementById("countRecent");
   const lastUpdate = document.getElementById("lastUpdate");
 
+  const categoriesView = document.getElementById("categoriesView");
+  const catGrid = document.getElementById("catGrid");
+  const detailView = document.getElementById("detailView");
+  const detailTitle = document.getElementById("detailTitle");
+  const detailCount = document.getElementById("detailCount");
+  const backBtn = document.getElementById("backBtn");
+
+  const CATEGORY_ORDER = ["Papis", "Hiro", "Epseg"];
+
   let unsubscribeSnapshot = null;
+  let allItems = [];
+  let activeCategory = null;
+  let editingId = null;
+
+  categoryInput.addEventListener("change", () => {
+    const isCustom = categoryInput.value === "__custom";
+    categoryCustomWrap.hidden = !isCustom;
+    categoryCustomInput.required = isCustom;
+    if(isCustom) categoryCustomInput.focus();
+  });
 
   // ---------- LOGIN (e-mail / senha) ----------
   function mensagemErro(err){
@@ -828,11 +1101,13 @@
 
     const q = query(linksCol, orderBy("createdAt", "desc"));
     unsubscribeSnapshot = onSnapshot(q, (snapshot) => {
-      const items = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-      renderLinks(items);
+      allItems = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+      renderCounts(allItems);
+      renderCategories(allItems);
+      if(activeCategory) renderDetail(activeCategory);
       lastUpdate.textContent = "atualizado agora";
     }, (err) => {
-      grid.innerHTML = `<div class="empty-state"><div class="big">erro ao carregar links</div><div class="small">${escapeHtml(err.message)}</div></div>`;
+      catGrid.innerHTML = `<div class="empty-state"><div class="big">erro ao carregar links</div><div class="small">${escapeHtml(err.message)}</div></div>`;
     });
   }
 
@@ -862,39 +1137,107 @@
     return u.replace(/^https?:\/\//i, "").replace(/\/$/, "");
   }
 
-  function renderLinks(items){
+  function renderCounts(items){
+    const now = Date.now();
+    const weekMs = 7 * 24 * 60 * 60 * 1000;
+    let recentCount = 0;
+    items.forEach(item => {
+      const createdMs = item.createdAt ? item.createdAt.toMillis() : now;
+      if(now - createdMs < weekMs) recentCount++;
+    });
+    countLinks.textContent = items.length;
+    countRecent.textContent = recentCount;
+  }
+
+  function groupByCategory(items){
+    const map = {};
+    items.forEach(item => {
+      const cat = (item.category && item.category.trim()) || "Sem categoria";
+      if(!map[cat]) map[cat] = [];
+      map[cat].push(item);
+    });
+    const names = Object.keys(map);
+    names.sort((a, b) => {
+      const ia = CATEGORY_ORDER.indexOf(a);
+      const ib = CATEGORY_ORDER.indexOf(b);
+      if(ia !== -1 && ib !== -1) return ia - ib;
+      if(ia !== -1) return -1;
+      if(ib !== -1) return 1;
+      return a.localeCompare(b, "pt-BR");
+    });
+    return names.map(name => ({ name, items: map[name] }));
+  }
+
+  function renderCategories(items){
     if(items.length === 0){
-      grid.innerHTML = `
+      catGrid.innerHTML = `
         <div class="empty-state">
           <div class="big">nenhum link por aqui ainda</div>
           <div class="small">adicione seu primeiro projeto no formulário acima</div>
         </div>`;
-      countLinks.textContent = "0";
-      countRecent.textContent = "0";
       return;
     }
 
-    const now = Date.now();
-    const weekMs = 7 * 24 * 60 * 60 * 1000;
-    let recentCount = 0;
+    const groups = groupByCategory(items);
+
+    catGrid.innerHTML = groups.map(group => {
+      const preview = group.items.slice(0, 3).map(i => `<span>${escapeHtml(i.title)}</span>`).join("");
+      const moreCount = group.items.length - 3;
+      const more = moreCount > 0 ? `<span class="more">+${moreCount} link${moreCount > 1 ? "s" : ""}</span>` : "";
+
+      return `
+        <div class="cat-card" data-cat="${escapeHtml(group.name)}">
+          <div class="cat-card-top">
+            <div class="cat-card-icon">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 7a2 2 0 0 1 2-2h4l2 2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V7Z"/></svg>
+            </div>
+            <span class="cat-card-title">${escapeHtml(group.name)}</span>
+          </div>
+          <div class="cat-card-count">${group.items.length} link${group.items.length > 1 ? "s" : ""}</div>
+          <div class="cat-card-preview">${preview}${more}</div>
+        </div>`;
+    }).join("");
+  }
+
+  function renderDetail(categoryName){
+    const group = groupByCategory(allItems).find(g => g.name === categoryName);
+    const items = group ? group.items : [];
+
+    detailTitle.textContent = categoryName;
+    detailCount.textContent = `${items.length} link${items.length !== 1 ? "s" : ""}`;
+
+    if(items.length === 0){
+      grid.innerHTML = `
+        <div class="empty-state">
+          <div class="big">nenhum link nessa categoria</div>
+          <div class="small">volte e adicione um novo link com essa categoria</div>
+        </div>`;
+      return;
+    }
 
     grid.innerHTML = items.map(item => {
-      const createdMs = item.createdAt ? item.createdAt.toMillis() : now;
-      if(now - createdMs < weekMs) recentCount++;
-
       const desc = item.description && item.description.trim()
         ? `<div class="card-desc">${escapeHtml(item.description)}</div>`
         : `<div class="card-desc empty">sem descrição</div>`;
 
+      const titleBlock = item.id === editingId
+        ? `<div class="title-edit-row">
+             <input class="title-edit-input" id="titleEditInput" value="${escapeHtml(item.title)}" maxlength="60" />
+             <button class="save-btn" data-id="${item.id}" data-action="save">salvar</button>
+             <button class="cancel-btn" data-action="cancel">cancelar</button>
+           </div>`
+        : `<div class="card-title-row">
+             <span class="status-dot"></span>
+             <span class="card-title" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</span>
+           </div>
+           <div class="card-actions">
+             <button class="edit-btn" data-id="${item.id}" data-action="edit">editar</button>
+             <button class="delete-btn" data-id="${item.id}" data-action="delete">remover</button>
+           </div>`;
+
       return `
         <div class="card" data-id="${item.id}">
-          <div class="card-top">
-            <div class="card-title-row">
-              <span class="status-dot"></span>
-              <span class="card-title" title="${escapeHtml(item.title)}">${escapeHtml(item.title)}</span>
-            </div>
-            <button class="delete-btn" data-id="${item.id}" data-action="delete">remover</button>
-          </div>
+          <div class="card-top">${titleBlock}</div>
           ${desc}
           <a class="card-link" href="${escapeHtml(item.url)}" target="_blank" rel="noopener noreferrer">
             <span>${escapeHtml(shortenUrl(item.url))}</span>
@@ -903,15 +1246,74 @@
         </div>`;
     }).join("");
 
-    countLinks.textContent = items.length;
-    countRecent.textContent = recentCount;
+    if(editingId){
+      const input = document.getElementById("titleEditInput");
+      if(input){ input.focus(); input.select(); }
+    }
   }
 
-  // delete with confirm-on-second-click
+  function openCategory(name){
+    activeCategory = name;
+    editingId = null;
+    categoriesView.setAttribute("hidden", "");
+    detailView.removeAttribute("hidden");
+    renderDetail(name);
+  }
+
+  function backToCategories(){
+    activeCategory = null;
+    editingId = null;
+    detailView.setAttribute("hidden", "");
+    categoriesView.removeAttribute("hidden");
+  }
+
+  catGrid.addEventListener("click", (e) => {
+    const card = e.target.closest(".cat-card");
+    if(!card) return;
+    openCategory(card.dataset.cat);
+  });
+
+  backBtn.addEventListener("click", backToCategories);
+
+  // delete with confirm-on-second-click / edit inline
   let pendingDeleteId = null;
   let pendingDeleteTimer = null;
 
   grid.addEventListener("click", async (e) => {
+    const editBtn = e.target.closest('[data-action="edit"]');
+    if(editBtn){
+      editingId = editBtn.dataset.id;
+      renderDetail(activeCategory);
+      return;
+    }
+
+    const cancelBtn = e.target.closest('[data-action="cancel"]');
+    if(cancelBtn){
+      editingId = null;
+      renderDetail(activeCategory);
+      return;
+    }
+
+    const saveBtn = e.target.closest('[data-action="save"]');
+    if(saveBtn){
+      const id = saveBtn.dataset.id;
+      const input = document.getElementById("titleEditInput");
+      const newTitle = input ? input.value.trim() : "";
+      if(!newTitle){
+        input.focus();
+        return;
+      }
+      saveBtn.disabled = true;
+      saveBtn.textContent = "salvando…";
+      try{
+        await updateDoc(doc(db, "links", id), { title: newTitle });
+        editingId = null;
+      }catch(err){
+        alert("Não foi possível salvar: " + err.message);
+      }
+      return;
+    }
+
     const btn = e.target.closest('[data-action="delete"]');
     if(!btn) return;
     const id = btn.dataset.id;
@@ -950,9 +1352,12 @@
     const title = titleInput.value.trim();
     const rawUrl = urlInput.value.trim();
     const description = descInput.value.trim();
+    const category = categoryInput.value === "__custom"
+      ? categoryCustomInput.value.trim()
+      : categoryInput.value;
 
-    if(!title || !rawUrl){
-      formHint.textContent = "preencha nome e URL para continuar";
+    if(!title || !rawUrl || !category){
+      formHint.textContent = "preencha nome, URL e categoria para continuar";
       formHint.classList.add("error");
       return;
     }
@@ -972,11 +1377,15 @@
         title,
         url,
         description,
+        category,
         createdAt: serverTimestamp()
       });
       form.reset();
+      categoryCustomWrap.hidden = true;
       promptEcho.textContent = "<projeto>";
       formHint.textContent = "os links ficam salvos e sincronizados em tempo real";
+      // se o link foi adicionado enquanto a categoria estava aberta, mantém a navegação nela
+      if(activeCategory === category) renderDetail(category);
     }catch(err){
       formHint.textContent = "erro ao salvar: " + err.message;
       formHint.classList.add("error");
